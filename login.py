@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support import expected_conditions as EC
 
 driver = webdriver.Chrome()
 
@@ -26,7 +27,9 @@ find_btn = driver.find_element_by_xpath('//*[@id="MainCopy_ctl26_FindContacts"]'
 driver.execute_script("arguments[0].click();", find_btn)
 
 #Finding elements by class name
+member_names = driver.find_elements_by_class_name("member-name")
+names = [x.text for x in member_names]
 
-member_name = driver.find_element_by_class_name("member-name")
-
-print(member_name.text)
+print("names:")
+for name in names:
+    print(name)
