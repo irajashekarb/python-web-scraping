@@ -26,10 +26,23 @@ select.select_by_visible_text('Alabama')
 find_btn = driver.find_element_by_xpath('//*[@id="MainCopy_ctl26_FindContacts"]')
 driver.execute_script("arguments[0].click();", find_btn)
 
-#Finding elements by class name
-member_names = driver.find_elements_by_class_name("member-name")
-names = [x.text for x in member_names]
 
-print("names:")
-for name in names:
-    print(name)
+def extractor():
+    # Finding elements by class name
+    member_names = driver.find_elements_by_class_name("member-name")
+    names = [x.text for x in member_names]
+
+    for name in names:
+        print(name)
+
+    member_role = driver.find_elements_by_class_name("company-title")
+    roles = [x.text for x in member_role]
+
+    for role in roles:
+        print(role)
+
+extractor()
+
+
+#Closing the browser
+driver.close()
