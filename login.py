@@ -20,14 +20,14 @@ driver.find_element_by_id("MainCopy_ctl02_Tab2").click()
 
 select = Select(driver.find_element_by_id('MainCopy_ctl08_FindStateProvinceCode'))
 
-select.select_by_visible_text('Alabama')
+select.select_by_visible_text('Arizona')
 
 #Search page java script button
 find_btn = driver.find_element_by_xpath('//*[@id="MainCopy_ctl26_FindContacts"]')
 driver.execute_script("arguments[0].click();", find_btn)
 
 select_page = Select(driver.find_element_by_id('MainCopy_ctl26_ResultsPerPage'))
-select_page.select_by_visible_text('50 per page')
+select_page.select_by_visible_text('100 per page')
 
 def extractor():
     # Finding elements by class name
@@ -59,13 +59,45 @@ def extractor():
     addresses = [x.text for x in member_address]
 
     for address in addresses:
-        print(address)
+        main_address = address.split(',', 1)[0]
+        print(main_address)
 
-extractor()
+# extractor()
+#
+# next_btn = driver.find_element_by_xpath('//*[@id="MainCopy_ctl26_Pager_NextPageButton"]')
+# driver.execute_script("arguments[0].click();", next_btn)
+#
+# extractor()
 
-next_btn = driver.find_element_by_xpath('//*[@id="MainCopy_ctl26_Pager_NextPageButton"]')
-driver.execute_script("arguments[0].click();", next_btn)
 
-extractor()
-#Closing the browser
-# driver.close()
+#Function for extracting individual profile data
+def profile_data(xpath) :
+    #Finding profile element by Xpath
+    profile = driver.find_element_by_xpath(xpath)
+    driver.execute_script("arguments[0].click();", profile)
+
+    #Extracting individual elements on profile page
+    member_name = driver.find_element_by_id('MainCopy_ctl23_lblName')
+    member_jobtitle = driver.find_element_by_id('MainCopy_ctl27_DisplayPresentJob1_JobDepartmentPanel')
+    member_company = driver.find_element_by_id('MainCopy_ctl27_DisplayPresentJob1_CompanyNamePanel')
+    member_mail = driver.find_element_by_id('MainCopy_ctl14_presentJob_EmailAddress')
+    member_phone = driver.find_element_by_id('MainCopy_ctl14_presentJob_Phone1Panel')
+    member_city = driver.find_element_by_id('MainCopy_ctl14_presentJob_CityStateRegionPanel')
+
+    print(member_name.text + "," + member_jobtitle.text + "," + member_company.text + "," + member_mail.text + "," + member_city.text + "," + member_phone.text)
+
+
+for i in range(2, 4):
+    #Creating xpaths for individual profile
+    profile_xpath = '//*[@id="MainCopy_ctl26_Contacts_DisplayName_' + str(i) + '"]'
+
+    #Calling profile_data() function with xpath parameter
+    profile_data(profile_xpath)
+
+    #clicking back button before another iteration
+    driver.execute_script("window.history.go(-1)")
+
+
+
+
+
