@@ -26,6 +26,8 @@ select.select_by_visible_text('Alabama')
 find_btn = driver.find_element_by_xpath('//*[@id="MainCopy_ctl26_FindContacts"]')
 driver.execute_script("arguments[0].click();", find_btn)
 
+select_page = Select(driver.find_element_by_id('MainCopy_ctl26_ResultsPerPage'))
+select_page.select_by_visible_text('50 per page')
 
 def extractor():
     # Finding elements by class name
@@ -41,8 +43,29 @@ def extractor():
     for role in roles:
         print(role)
 
+    member_company = driver.find_elements_by_class_name("company-name")
+    companies = [x.text for x in member_company]
+
+    for company in companies:
+        print(company)
+
+    member_mail = driver.find_elements_by_class_name("member-email")
+    mails = [x.text for x in member_mail]
+
+    for mail in mails:
+        print(mail)
+
+    member_address = driver.find_elements_by_class_name("list-address-panel")
+    addresses = [x.text for x in member_address]
+
+    for address in addresses:
+        print(address)
+
 extractor()
 
+next_btn = driver.find_element_by_xpath('//*[@id="MainCopy_ctl26_Pager_NextPageButton"]')
+driver.execute_script("arguments[0].click();", next_btn)
 
+extractor()
 #Closing the browser
-driver.close()
+# driver.close()
