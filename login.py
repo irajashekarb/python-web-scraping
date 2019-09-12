@@ -1,6 +1,6 @@
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import Select
-from selenium.webdriver.support import expected_conditions as EC
 
 driver = webdriver.Chrome()
 
@@ -29,47 +29,6 @@ driver.execute_script("arguments[0].click();", find_btn)
 select_page = Select(driver.find_element_by_id('MainCopy_ctl26_ResultsPerPage'))
 select_page.select_by_visible_text('100 per page')
 
-def extractor():
-    # Finding elements by class name
-    member_names = driver.find_elements_by_class_name("member-name")
-    names = [x.text for x in member_names]
-
-    for name in names:
-        print(name)
-
-    member_role = driver.find_elements_by_class_name("company-title")
-    roles = [x.text for x in member_role]
-
-    for role in roles:
-        print(role)
-
-    member_company = driver.find_elements_by_class_name("company-name")
-    companies = [x.text for x in member_company]
-
-    for company in companies:
-        print(company)
-
-    member_mail = driver.find_elements_by_class_name("member-email")
-    mails = [x.text for x in member_mail]
-
-    for mail in mails:
-        print(mail)
-
-    member_address = driver.find_elements_by_class_name("list-address-panel")
-    addresses = [x.text for x in member_address]
-
-    for address in addresses:
-        main_address = address.split(',', 1)[0]
-        print(main_address)
-
-# extractor()
-#
-# next_btn = driver.find_element_by_xpath('//*[@id="MainCopy_ctl26_Pager_NextPageButton"]')
-# driver.execute_script("arguments[0].click();", next_btn)
-#
-# extractor()
-
-
 #Function for extracting individual profile data
 def profile_data(xpath) :
     #Finding profile element by Xpath
@@ -77,27 +36,66 @@ def profile_data(xpath) :
     driver.execute_script("arguments[0].click();", profile)
 
     #Extracting individual elements on profile page
-    member_name = driver.find_element_by_id('MainCopy_ctl23_lblName')
-    member_jobtitle = driver.find_element_by_id('MainCopy_ctl27_DisplayPresentJob1_JobDepartmentPanel')
-    member_company = driver.find_element_by_id('MainCopy_ctl27_DisplayPresentJob1_CompanyNamePanel')
-    member_mail = driver.find_element_by_id('MainCopy_ctl14_presentJob_EmailAddress')
-    member_phone = driver.find_element_by_id('MainCopy_ctl14_presentJob_Phone1Panel')
-    member_city = driver.find_element_by_id('MainCopy_ctl14_presentJob_CityStateRegionPanel')
+    try:
+        main_name = driver.find_element_by_id('MainCopy_ctl23_lblName').text
+        member_name = main_name.split(",", 1)[0]
+    except NoSuchElementException:
+        member_name = "-"
 
-    print(member_name.text + "," + member_jobtitle.text + "," + member_company.text + "," + member_mail.text + "," + member_city.text + "," + member_phone.text)
+    try:
+        main_jobtitle = driver.find_element_by_id('MainCopy_ctl27_DisplayPresentJob1_JobDepartmentPanel').text
+        member_jobtitle = main_jobtitle.split(",", 1)[0]
+    except NoSuchElementException:
+        member_jobtitle = "-"
 
+    try:
+        member_company = driver.find_element_by_id('MainCopy_ctl27_DisplayPresentJob1_CompanyNamePanel').text
 
-for i in range(2, 4):
-    #Creating xpaths for individual profile
-    profile_xpath = '//*[@id="MainCopy_ctl26_Contacts_DisplayName_' + str(i) + '"]'
+    except NoSuchElementException:
+        member_company = "-"
 
-    #Calling profile_data() function with xpath parameter
-    profile_data(profile_xpath)
+    try:
+        member_mail = driver.find_element_by_id('MainCopy_ctl14_presentJob_EmailAddress').text
+    except NoSuchElementException:
+        member_mail = "-"
 
-    #clicking back button before another iteration
-    driver.execute_script("window.history.go(-1)")
+    try:
+        main_phone = driver.find_element_by_id('MainCopy_ctl14_presentJob_Phone1Panel').text
+        member_phone = main_phone.split('primary: ', 1)[0]
+    except NoSuchElementException:
+        member_phone = "-"
 
+    try:
+        main_address = driver.find_element_by_id('MainCopy_ctl14_presentJob_CityStateRegionPanel').text
+        member_city = main_address.split(',', 2)[0]
+    except NoSuchElementException:
+        member_city="-"
 
+    f.write(member_name + "," + member_jobtitle+ "," + member_company + "," + member_mail + "," + member_phone + "," + "- ," + member_city + ", Arizona" + "\n")
+
+#Opening the file to save the extracted data
+file_name = "data.csv"
+f = open(file_name, "w")
+
+def loopforprofile():
+    for i in range(0, 99):
+        #Creating xpaths for individual profile
+        profile_xpath = '//*[@id="MainCopy_ctl26_Contacts_DisplayName_' + str(i) + '"]'
+
+        #Calling profile_data() function with xpath parameter
+        profile_data(profile_xpath)
+
+        #clicking back button before another iteration
+        driver.execute_script("window.history.go(-1)")
+loopforprofile()
+
+next_btn = driver.find_element_by_xpath('//*[@id="MainCopy_ctl26_Pager_NextPageButton"]')
+driver.execute_script("arguments[0].click();", next_btn)
+
+loopforprofile()
+
+f.close()
+driver.close()
 
 
 
