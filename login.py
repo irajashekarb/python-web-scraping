@@ -1,37 +1,44 @@
+# Importing Dependencies
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import Select
 
+# Intiatlizing chrome web driver
 driver = webdriver.Chrome()
 
+# opening link
 driver.get("https://smemi.personifycloud.com/SSO/Login.aspx?vi=9&vt=66d4ecf86b5608888d8652e1223449493e998db93fc3ed5836ab7ab4ca0548afabee4629bbd2edbeb1b3bc3f4bc1e680bf5908fb815f9eb6aae99af0f6050d346aa8ded3a7d1bf37956b2758f3be5602a3f400685843ec1a19b579f31adc37ac")
 
+# username
 username = driver.find_element_by_id("main_LoginTextBox")
 username.clear()
 username.send_keys("satish.penmetsa@rapidbizapps.com")
 
+# password
 password = driver.find_element_by_id("main_PasswordTextBox")
 password.clear()
 password.send_keys("empyr3An")
 
+# Finding submit button
 driver.find_element_by_id("main_SubmitButton").click()
 
 driver.find_element_by_id("MainCopy_ctl02_Tab2").click()
 
+# using Select GUI dependency for selecting one element from list of elements
 select = Select(driver.find_element_by_id('MainCopy_ctl08_FindStateProvinceCode'))
+select.select_by_visible_text('')
 
-select.select_by_visible_text('Colorado')
+# Sending parameters to city dialog box
+# city = driver.find_element_by_id('MainCopy_ctl08_FindCity')
+# city.send_keys('')
 
-city = driver.find_element_by_id('MainCopy_ctl08_FindCity')
-city.send_keys('Golden')
-
-#Search page java script button
+# Search page java script button
 find_btn = driver.find_element_by_xpath('//*[@id="MainCopy_ctl26_FindContacts"]')
 driver.execute_script("arguments[0].click();", find_btn)
 
-# # 50 or 100 per page selector
-select_page = Select(driver.find_element_by_id('MainCopy_ctl26_ResultsPerPage'))
-select_page.select_by_visible_text('100 per page')
+# 50 or 100 per page selectors
+# select_page = Select(driver.find_element_by_id('MainCopy_ctl26_ResultsPerPage'))
+# select_page.select_by_visible_text('50 per page')
 
 #Function for extracting individual profile data
 def profile_data(xpath) :
@@ -75,14 +82,16 @@ def profile_data(xpath) :
     except NoSuchElementException:
         member_city="-"
 
-    f.write(member_name + "," + member_jobtitle+ "," + member_company + "," + member_mail + "," + member_phone + "," + "- ," + member_city + ", Colorado" + "\n")
+    # writing all the variables from list to data.csv file
+    f.write(member_name + "," + member_jobtitle+ "," + member_company + "," + member_mail + "," + member_phone + "," + "- ," + member_city + ", Maine" + "\n")
 
 #Opening the file to save the extracted data
 file_name = "data.csv"
 f = open(file_name, "w")
 
+# loop for iterating through each profile
 def loopforprofile():
-    for i in range(0, 100):
+    for i in range(0, 9):
         #Creating xpaths for individual profile
         profile_xpath = '//*[@id="MainCopy_ctl26_Contacts_DisplayName_' + str(i) + '"]'
 
