@@ -42,8 +42,6 @@ def finder1():
             query = name + " " + '"' + role + " " + company + '"' + " " + "site:linkedin.com/in"
             check = name + " " + role + " " + company
 
-        print(query)
-
         try:
             headers = {'Ocp-Apim-Subscription-Key': API_KEY}
             params = urllib.parse.urlencode(
