@@ -24,13 +24,17 @@ driver.find_element_by_id("main_SubmitButton").click()
 
 driver.find_element_by_id("MainCopy_ctl02_Tab2").click()
 
+#Selecting state
+state= Select(driver.find_element_by_id('MainCopy_ctl08_FindStateProvinceCode'))
+state.select_by_visible_text('')
+
 # using Select GUI dependency for selecting one element from list of elements
-select = Select(driver.find_element_by_id('MainCopy_ctl08_FindStateProvinceCode'))
-select.select_by_visible_text('Utah')
+country = Select(driver.find_element_by_id('MainCopy_ctl08_FindCountryCode'))
+country.select_by_visible_text('')
 
 # Sending parameters to city dialog box
-city = driver.find_element_by_id('MainCopy_ctl08_FindCity')
-city.send_keys('Park City')
+# city = driver.find_element_by_id('MainCopy_ctl08_FindCity')
+# city.send_keys('Coquitlam')
 
 # Search page java script button
 find_btn = driver.find_element_by_xpath('//*[@id="MainCopy_ctl26_FindContacts"]')
@@ -38,7 +42,7 @@ driver.execute_script("arguments[0].click();", find_btn)
 
 # 50 or 100 per page selectors
 # select_page = Select(driver.find_element_by_id('MainCopy_ctl26_ResultsPerPage'))
-# select_page.select_by_visible_text('100 per page')
+# select_page.select_by_visible_text('50 per page')
 
 #Function for extracting individual profile data
 def profile_data(xpath) :
@@ -83,15 +87,15 @@ def profile_data(xpath) :
         member_city="-"
 
     # writing all the variables from list to data.csv file
-    f.write(member_name + "," + member_jobtitle+ "," + member_company + "," + member_mail + "," + member_phone + "," + "- ," + member_city + ", Utah" + "\n")
+    f.write(member_name + "," + member_jobtitle+ "," + member_company + "," + member_mail + "," + member_phone + "," + "- ," + member_city + ", Canada" + "\n")
 
 #Opening the file to save the extracted data
 file_name = "data.csv"
 f = open(file_name, "w")
 
 # loop for iterating through each profile
-def loopforprofile():
-    for i in range(0, 9):
+def loopforprofile(profiles_length):
+    for i in range(0, profiles_length):
         #Creating xpaths for individual profile
         profile_xpath = '//*[@id="MainCopy_ctl26_Contacts_DisplayName_' + str(i) + '"]'
 
@@ -101,12 +105,16 @@ def loopforprofile():
         #clicking back button before another iteration
         driver.execute_script("window.history.go(-1)")
 
-loopforprofile()
+profiles = driver.find_elements_by_class_name("member-name")
+print(len(profiles))
+loopforprofile(len(profiles))
 
-next_btn = driver.find_element_by_xpath('//*[@id="MainCopy_ctl26_Pager_NextPageButton"]')
-driver.execute_script("arguments[0].click();", next_btn)
-
-loopforprofile()
+# next_btn = driver.find_element_by_xpath('//*[@id="MainCopy_ctl26_Pager_NextPageButton"]')
+# driver.execute_script("arguments[0].click();", next_btn)
+#
+# profiles = driver.find_elements_by_class_name("member-name")
+# print(len(profiles))
+# loopforprofile(len(profiles))
 
 f.close()
 driver.close()

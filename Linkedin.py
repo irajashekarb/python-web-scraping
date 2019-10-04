@@ -6,7 +6,7 @@ import pandas as pd
 from difflib import SequenceMatcher
 
 # Storing file path
-file_loc = 'File Location'
+file_loc = r'file path'
 xl = pd.ExcelFile(file_loc)
 df = xl.parse("Sheet1")
 names = df['Name'].tolist()
@@ -59,8 +59,8 @@ def finder1():
                 print(result)
                 ratio = SequenceMatcher(None, check.lower(), title.lower()).ratio()
                 print(ratio)
-                if ratio > 0.57:
-                    if r'www.linkedin.com/in/' in result['displayUrl']:  # checks if the search result URL is a LI profile
+                if ratio > 0.5:
+                    if r'linkedin.com/in/' in result['displayUrl']:  # checks if the search result URL is a LI profile
                         linkedin.append([name, role, company, result['displayUrl']])
                         break
                 else:
@@ -109,8 +109,8 @@ def finder2():
                 print(result)
                 ratio = SequenceMatcher(None, check.lower(), title.lower()).ratio()
                 print(ratio)
-                if ratio > 0.54:
-                    if r'www.linkedin.com/in/' in result['displayUrl']:  # checks if the search result URL is a LI profile
+                if ratio > 0.5:
+                    if r'linkedin.com/in/' in result['displayUrl']:  # checks if the search result URL is a LI profile
                         linkedin.append([name, role, company, result['displayUrl']])
                         break
                 else:
