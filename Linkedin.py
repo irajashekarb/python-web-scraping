@@ -23,7 +23,7 @@ linkedin = []
 def finder1():
     for name, role, company in zip(names, roles, companies):
 
-        #name and role and company
+        #condition where no role and company are present in data set
         if(role == " " and company == " " or role == "Retired" or role == "Student"):
             linkedin.append([name, role, company, '-'])
             query=''
