@@ -18,6 +18,7 @@ username.send_keys("Username")
 # password
 password = driver.find_element_by_id("main_PasswordTextBox")
 password.clear()
+# Send password using send_keys method
 password.send_keys("Password")
 
 # Finding submit button
