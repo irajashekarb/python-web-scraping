@@ -34,7 +34,7 @@ state.select_by_visible_text('')
 country = Select(driver.find_element_by_id('MainCopy_ctl08_FindCountryCode'))
 country.select_by_visible_text('')
 
-# Sending parameters to city dialog box
+## Sending parameters to city dialog box
 # city = driver.find_element_by_id('MainCopy_ctl08_FindCity')
 # city.send_keys('Coquitlam')
 
