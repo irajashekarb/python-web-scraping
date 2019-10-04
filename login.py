@@ -12,6 +12,7 @@ driver.get("https://smemi.personifycloud.com/SSO/Login.aspx?vi=9&vt=66d4ecf86b56
 # username
 username = driver.find_element_by_id("main_LoginTextBox")
 username.clear()
+# Send username using send_keys method
 username.send_keys("Username")
 
 # password
