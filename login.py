@@ -40,7 +40,7 @@ country.select_by_visible_text('')
 find_btn = driver.find_element_by_xpath('//*[@id="MainCopy_ctl26_FindContacts"]')
 driver.execute_script("arguments[0].click();", find_btn)
 
-# 50 or 100 per page selectors
+## 50 or 100 per page selectors
 # select_page = Select(driver.find_element_by_id('MainCopy_ctl26_ResultsPerPage'))
 # select_page.select_by_visible_text('50 per page')
 
@@ -87,7 +87,7 @@ def profile_data(xpath) :
         member_city="-"
 
     # writing all the variables from list to data.csv file
-    f.write(member_name + "," + member_jobtitle+ "," + member_company + "," + member_mail + "," + member_phone + "," + "- ," + member_city + ", Canada" + "\n")
+    f.write(member_name + "," + member_jobtitle+ "," + member_company + "," + member_mail + "," + member_phone + "," + "- ," + member_city + ", Country name/City name" + "\n")
 
 #Opening the file to save the extracted data
 file_name = "data.csv"
@@ -109,6 +109,7 @@ profiles = driver.find_elements_by_class_name("member-name")
 print(len(profiles))
 loopforprofile(len(profiles))
 
+## finding next page button with the xpath
 # next_btn = driver.find_element_by_xpath('//*[@id="MainCopy_ctl26_Pager_NextPageButton"]')
 # driver.execute_script("arguments[0].click();", next_btn)
 #
