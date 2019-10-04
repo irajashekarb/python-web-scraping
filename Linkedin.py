@@ -16,6 +16,7 @@ companies = df['Current Company'].tolist()
 # Secret API key
 API_KEY = '670f1c5cc526474787ca05f26600bc81 '
 
+# Creating an array for linkedin
 linkedin = []
 
 # zip to loop over names and companies simultaneously
