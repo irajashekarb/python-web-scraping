@@ -29,7 +29,7 @@ def finder1():
             query=''
             check = "check"
             print("no data")
-        #name and role
+        #condition where only name and role are present in data set
         elif(company == " "):
             query = name + " " + '"' + role +'"' + " " + "site:linkedin.com/in"
             check = name + " " + role
