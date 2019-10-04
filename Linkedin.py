@@ -6,7 +6,7 @@ import pandas as pd
 from difflib import SequenceMatcher
 
 # Storing file path
-file_loc = r'file path'
+file_loc = r'File_location'
 xl = pd.ExcelFile(file_loc)
 df = xl.parse("Sheet1")
 names = df['Name'].tolist()
