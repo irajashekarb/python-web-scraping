@@ -37,7 +37,7 @@ def finder1():
         elif(role == " "):
             query = name + " " + '"' + company + '"' + " " + "site:linkedin.com/in"
             check = name + " " + company
-        # name and role
+        #condition where name, role and company are present in data set
         else:
             query = name + " " + '"' + role + " " + company + '"' + " " + "site:linkedin.com/in"
             check = name + " " + role + " " + company
